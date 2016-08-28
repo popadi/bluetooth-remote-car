@@ -1,0 +1,102 @@
+body {
+    background-image: url("../images/bg2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#middle-content {
+    transform-style: preserve-3d;
+    transition: transform 1s;
+}
+
+#middle-content.flipped {
+    transform: rotateY(180deg);
+}
+
+#middle-content .front {
+
+}
+
+#middle-content .back {
+    transform: rotateY(180deg);
+}
+
+.bt-logo {
+    width: 345px;
+    height: 345px;
+
+    transition: all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+
+    backface-visibility: hidden;
+}
+
+.bt-logo-flipped {
+    -webkit-transform: rotateY(180deg);
+}
+
+.connection-band {
+    position: fixed;
+    top: 50%;
+    width: 100%;
+    height: 10%;
+    transform: translate(0%, -50%);
+    background-color: #8EC343;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.slide {
+    transition: all 1s ease-in-out;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+}
+
+.slide-up {
+    top: 25%;
+}
+
+.checkmark {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.right-bottom-corner {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+}
+
+/* -- Fade in/out animations for alerts -- */
+.fade {
+    display: none;
+    opacity: 0;
+    -webkit-transition: opacity 0.5s linear;
+    -moz-transition: opacity 0.5s linear;
+    -o-transition: opacity 0.5s linear;
+    transition: opacity 0.5s linear;
+    text-align: center;
+}
+
+.fade.in {
+    display: block;
+    opacity: 1;
+}
+/* -- Fade in/out animations for alerts -- */
+
+#device-table {
+    text-align: center;
+}

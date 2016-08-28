@@ -1,0 +1,114 @@
+<html>
+<head>
+    <!-- Meta information -->
+    <meta charset="UTF-8">
+    <title>Arduino Bluetooth Car</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <!-- Resources -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/BootstrapXL.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/checked.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/radar.css') }}">
+</head>
+
+<body class="container">
+<div class="row" style="height: 50%">
+    <!-- The green transversal bar -->
+    <div id="connection-band" class="centered connection-band slide"></div>
+
+    <!-- The circle around the logo -->
+    <div id="circle-logo" class="checkmark centered slide">
+        <svg x="0px" y="0px" viewBox="0, 0, 100, 100">
+            <g transform=""><circle fill="#8EC343" stroke="#8EC343" stroke-width="1" stroke-miterlimit="10" cx="50" cy="50" r="45"/></g>
+        </svg>
+    </div>
+
+    <!-- The content in the middle area section that can be changed -->
+    <section class="container centered slide">
+        <div id="middle-content">
+            <!-- Button: Get bluetooth devices list -->
+            <img id="get-devices-btn" class="front bt-logo centered" src="{{ url_for('static', filename='images/bt-logo.png') }}">
+
+            <!-- The radar animation while scanning -->
+            <div id="radar" class="back slide centered">
+                <i><i></i></i><div id="guides"><div class="line"></div></div>
+            </div>
+
+            <!-- The searching animation -->
+            <div id="loading" class="checkmark centered slide">
+                <div id="connection-animation" style="display: none">
+                    <svg x="0px" y="0px" viewBox="0, 0, 100, 100">
+                        <!-- Animation: the moving circle -->
+                        <g transform="">
+                            <circle class="path" fill="white" stroke="#8EC343" stroke-width="2" stroke-miterlimit="10" cx="50" cy="50" r="45"/>
+                            <circle class="fill" fill="none" stroke="#8EC343" stroke-width="2" stroke-miterlimit="10" cx="50" cy="50" r="45"/>
+                        </g>
+
+                        <!-- Animation: connection was successful -->
+                        <g transform="" id="success-graphics" style="display: none">
+                            <circle class="path" fill="white" stroke="#8EC343" stroke-width="2" stroke-miterlimit="10" cx="50" cy="50" r="45"/>
+                            <circle class="fill" fill="none" stroke="#8EC343" stroke-width="2" stroke-miterlimit="10" cx="50" cy="50" r="45"/>
+                            <polyline class="check" fill="none" stroke="#8EC343" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" points="70,35 45,65 30,52  "/>
+                        </g>
+
+                        <!-- Animation: connection with error -->
+                        <g transform="" id="error-graphics" style="display: none">
+                            <polyline class="xmark" fill="none" stroke="#FF9494" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" points="30,70 50,50 30,30"/>
+                            <polyline class="xmark" fill="none" stroke="#FF9494" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" points="70,30 50,50 70,70"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- The table with the results -->
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+        <table class="table" id="device-table" hidden>
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Device Name</th>
+                    <th style="text-align: center;">Device Address</th>
+                    <th style="text-align: center;">Connect</th>
+                </tr>
+            </thead>
+            <tbody id="device-table-content">
+                <!-- Table content -->
+            </tbody>
+        </table>
+        <p id="conn-mess" class="alert fade"></p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="form right-bottom-corner">
+        <!-- The search button -->
+        <button class="btn btn-success" style="display: inline-block;" onclick="showSearch();">
+            <i class="fa fa fa-search" aria-hidden="true"></i>
+        </button>
+
+        <!-- The refresh button -->
+        <button class="btn btn-success" style="display: inline-block;" onclick="location.reload();">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Libraries-->
+<script src="{{ url_for('static', filename='libraries/socket.io.min.js') }}"></script>
+<script src="{{ url_for('static', filename='libraries/jquery-3.1.0.js') }}"></script>
+
+<!-- Custom scripts -->
+<script src="{{ url_for('static', filename='scripts-frontend/connect-animation.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts-frontend/radar-animation.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts-backend/remote.js') }}"></script>
+
+
+</body>
+</html>
