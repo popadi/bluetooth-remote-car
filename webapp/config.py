@@ -13,7 +13,12 @@ class serverInfo(object):
 
 class BTConfig(object):
     channel = 3
+    timeout = 5
 
     @classmethod
     def getChannel(self):
         return self.channel
+
+    @classmethod
+    def getTimeout(self):
+        return self.timeout

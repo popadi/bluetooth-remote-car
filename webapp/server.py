@@ -5,8 +5,8 @@ from eventlet import wsgi
 import eventlet
 
 from webapp.bluetooth_service import BluetoothConnection
+from webapp.bluetooth_service import BluetoothScraper
 from webapp.exceptions import BluetoothException
-from webapp.utils import get_connected_devices
 from webapp.config import serverInfo
 
 
@@ -49,8 +49,9 @@ def index():
 def get_devices():
     data = dict()
     try:
-        devices = get_connected_devices()
-        data['devices'] = devices
+        bt_scraper = BluetoothScraper()
+        bt_scraper.search_devices()
+        data['devices'] = bt_scraper.get_devices()
     except BluetoothException as e:
         print(e)
         data['errors'] = str(e)
