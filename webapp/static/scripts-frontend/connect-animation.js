@@ -37,4 +37,3 @@ function toggleAnimationEnd(connectionStatus) {
         }, 500);
     }
 }
-

@@ -1,9 +1,74 @@
+/* -- Dark/light backgrounds -- */
 body {
-    background-image: url("../images/bg2.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+
+    transition: all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
 }
+
+
+body.light {
+    background-image: url("http://www.rhino-valves.com/wp-content/uploads/2014/08/blurry_background_iv-wallpaper-1600x900.jpg");
+}
+
+body.dark {
+    background-image: url("http://i.stack.imgur.com/ClW7h.jpg");
+}
+/* -- Dark/light backgrounds -- */
+
+/* Dark/light background toggle control */
+.lbl {
+    position: relative;
+    display: block;
+    height: 20px;
+    width: 50px;
+    background: #898989;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lbl:after {
+    position: absolute;
+    left: -2px;
+    top: -3px;
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    background: #fff;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
+    content: '';
+    transition: all 0.3s ease;
+}
+
+.lbl:active:after {
+    transform: scale(1.15, 0.85);
+}
+
+.cbx:checked ~ label {
+    background: #6fbeb5;
+}
+
+.cbx:checked ~ label:after {
+    left: 26px;
+    background: #179588;
+}
+
+.cbx:disabled ~ label {
+    background: #d5d5d5;
+    pointer-events: none;
+}
+
+.cbx:disabled ~ label:after {
+    background: #bcbdbc;
+}
+/* Dark/light background toggle control */
+
 
 #middle-content {
     transform-style: preserve-3d;
@@ -80,6 +145,12 @@ body {
     right: 5px;
 }
 
+.left-bottom-corner {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+}
+
 /* -- Fade in/out animations for alerts -- */
 .fade {
     display: none;
@@ -99,4 +170,22 @@ body {
 
 #device-table {
     text-align: center;
+}
+
+#device-table.light {
+    color: #000000;
+
+    transition: all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+}
+
+#device-table.dark {
+    color: #fffaff;
+}
+
+
+.hidden {
+    display: none;
 }

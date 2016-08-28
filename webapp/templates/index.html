@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/radar.css') }}">
 </head>
 
-<body class="container">
+<body class="container light">
 <div class="row" style="height: 50%">
     <!-- The green transversal bar -->
     <div id="connection-band" class="centered connection-band slide"></div>
@@ -69,7 +69,7 @@
 <!-- The table with the results -->
 <div class="row">
     <div class="col-lg-4 col-lg-offset-4 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-        <table class="table" id="device-table" hidden>
+        <table class="table light" id="device-table" hidden>
             <thead>
                 <tr>
                     <th style="text-align: center;">Device Name</th>
@@ -87,6 +87,11 @@
 
 
 <div class="row">
+    <div class="form left-bottom-corner">
+        <input type="checkbox" id="unchecked" class="cbx hidden"/>
+        <label for="unchecked" id="lb-unchecked" class="lbl"></label>
+    </div>
+
     <div class="form right-bottom-corner">
         <!-- The search button -->
         <button class="btn btn-success" style="display: inline-block;" onclick="showSearch();">
@@ -107,6 +112,7 @@
 <!-- Custom scripts -->
 <script src="{{ url_for('static', filename='scripts-frontend/connect-animation.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts-frontend/radar-animation.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts-frontend/page-controls.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts-backend/remote.js') }}"></script>
 
 
