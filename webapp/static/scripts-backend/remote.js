@@ -9,7 +9,12 @@ var socket = io.connect(baseURL);
 
 
 /**
+ * Empty the table (if there are any devices) and add the new
+ * ones we just received. If there are any errors received the
+ * device discovery went wrong), a error message is displayed.
  *
+ * @param receivedData: Dictionary that can contain a list of
+ * errors or a list of devices.
  */
 socket.on('print_devices', function (receivedData) {
     /* Decode the recieved result & clear the table */
@@ -32,7 +37,8 @@ socket.on('print_devices', function (receivedData) {
             var newRow = '';
             newRow += createTD(decoded['data']['devices'][i].name);
             newRow += createTD(decoded['data']['devices'][i].address);
-            newRow += createTD("<img class='connect-icon' onclick='connectBluetooth(this.name)' " +
+            newRow += createTD("<img class='connect-icon' " +
+                "onclick='connectBluetooth(this.name)' " +
                 "name='" + decoded['data']['devices'][i].address + "'>");
 
             newRow = "<tr>" + newRow + "</tr>";
@@ -40,28 +46,28 @@ socket.on('print_devices', function (receivedData) {
         }
     }
 
-    /* Add icon image to the connect buttons */
+    /* Add icon image to the connect buttons & Turn the radar backwards */
     $(".connect-icon").attr("src", "http://i.imgur.com/bBwMSrI.png");
-
-    /* Turn the radar backwards */
     $("#middle-content").toggleClass('flipped');
 });
 
 
 /**
- *
- * @param deviceAddress
+ * Start the connection animation and emit a message to the python
+ * backend to create a connection with a specific device.
+ * @param deviceAddress: the address of the device to connect to.
  */
 
 function connectBluetooth(deviceAddress) {
     /* Remove the alert (if any) */
-    $("#conn-mess").removeClass("in");
-    $("#conn-mess").removeClass("alert-danger");
+    var alertBox = $("#conn-mess");
+    alertBox.removeClass("in");
+    alertBox.removeClass("alert-danger");
 
     /* Function: connect-animation.js file */
     resetAnimation();
 
-    /* Send a message and attept to connect */
+    /* Send a message and attempt to connect */
     socket.emit('connect_device', {"address": deviceAddress});
 }
 
@@ -71,6 +77,10 @@ function connectBluetooth(deviceAddress) {
  * to connect to a device. If the connection was successful, display
  * a check of the animation. If we received an error, we display the
  * error and display a x-mark in the middle.
+ * Also, if the connection was successful, add a click event handler for
+ * the alert. If the user will click on it, the listening and sending
+ * python background thread will be started.
+ *
  * @param {Object} connectionData: dictionary containing the connection
  * status and an success/error message
  */
@@ -85,29 +95,23 @@ socket.on('connection_status', function (connectionData) {
         var graphics = connStatus ?  $("#success-graphics") : $("#error-graphics");
         $(graphics).css("display", "block");
 
-        $("#conn-mess").empty().append(decoded['data']['message']);
-        $("#conn-mess").addClass(connStatus ? "alert-success in" : "alert-danger in");
+        var alertBox = $("#conn-mess");
+        alertBox.empty().append(decoded['data']['message']);
+        alertBox.addClass(connStatus ? "alert-success in" : "alert-danger in");
+
+        if (alertBox.hasClass("alert-success"))
+            alertBox.click(function () {window.location = "/generator/"});
+
     }, 1000);
 });
 
 
 /**
- *
+ * Start the radar animation and emit a message to actually
+ * start the BluetoothScraper in the python backend.
  */
 $("#get-devices-btn").click(function () {
     socket.emit("get_devices");
     $("#middle-content").toggleClass('flipped');
-
-    setTimeout(function () {
-        $(".slide").addClass("slide-up");
-    }, 2000);
+    setTimeout(function () { $(".slide").addClass("slide-up"); }, 2000);
 });
-
-
-function showSearch() {
-    $("#connection-animation").hide();
-    $("#get-devices-btn").show();
-    $("#circle-logo").show();
-    $("#conn-mess").hide();
-    $("#radar").show();
-}

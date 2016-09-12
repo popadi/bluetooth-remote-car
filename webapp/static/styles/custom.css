@@ -12,11 +12,11 @@ body {
 
 
 body.light {
-    background-image: url("http://www.rhino-valves.com/wp-content/uploads/2014/08/blurry_background_iv-wallpaper-1600x900.jpg");
+    background-image: url("../images/bg-light.jpg");
 }
 
 body.dark {
-    background-image: url("http://i.stack.imgur.com/ClW7h.jpg");
+    background-image: url("../images/bg-dark.jpg");
 }
 /* -- Dark/light backgrounds -- */
 

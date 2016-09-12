@@ -1,0 +1,35 @@
+<html>
+<head>
+    <!-- Meta information -->
+    <meta charset="UTF-8">
+    <title>Arduino Bluetooth Car</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <!-- Resources -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/BootstrapXL.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/checked.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+</head>
+
+<body class="container light">
+
+<!-- The buttons in the footer -->
+<div class="row">
+    <div class="form left-bottom-corner">
+        <input type="checkbox" id="unchecked" class="cbx hidden"/>
+        <label for="unchecked" id="lb-unchecked" class="lbl"></label>
+    </div>
+</div>
+
+<!-- Libraries-->
+<script src="{{ url_for('static', filename='libraries/socket.io.min.js') }}"></script>
+<script src="{{ url_for('static', filename='libraries/jquery-3.1.0.js') }}"></script>
+
+<!-- Custom scripts -->
+<script src="{{ url_for('static', filename='scripts-frontend/page-controls.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts-backend/remote.js') }}"></script>
+
+</body>
+</html>
