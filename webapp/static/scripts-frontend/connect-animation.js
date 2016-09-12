@@ -1,11 +1,12 @@
 function resetAnimation() {
-    $("#connection-animation").css("display", "block");
+    var connAnimation = $("#connection-animation");
+    connAnimation.css("display", "block");
     $(".path").removeClass("path-complete success error");
     $(".fill").removeClass("fill-complete success error");
 
-    k = $("#connection-animation").html();
-    $("#connection-animation").empty();
-    $("#connection-animation").append(k);
+    k = connAnimation.html();
+    connAnimation.empty();
+    connAnimation.append(k);
 
     $("#success-graphics").css("display", "none");
     $("#error-graphics").css("display", "none");
