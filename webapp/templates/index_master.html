@@ -1,20 +1,5 @@
-<html>
-<head>
-    <!-- Meta information -->
-    <meta charset="UTF-8">
-    <title>Arduino Bluetooth Car</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-
-    <!-- Resources -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapxl.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/connect-animation.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/radar.min.css') }}">
-</head>
-
-<body class="container light">
+{% extends "base.html" %}
+{% block body %}
 <div class="row" style="height: 50%">
     <!-- The green transversal bar -->
     <div id="connection-band" class="centered connection-band slide"></div>
@@ -55,7 +40,7 @@
                         </g>
 
                         <!-- Animation: connection with error -->
-                        <g transform="" id="error-graphics" style="display: none">
+                        <g transform="a" id="error-graphics" style="display: none">
                             <polyline class="xmark" fill="none" stroke="#FF9494" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" points="30,70 50,50 30,30"/>
                             <polyline class="xmark" fill="none" stroke="#FF9494" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" points="70,30 50,50 70,70"/>
                         </g>
@@ -104,18 +89,4 @@
         </button>
     </div>
 </div>
-
-<!-- Libraries-->
-<script src="{{ url_for('static', filename='libraries/socket.io.min.js') }}"></script>
-<script src="{{ url_for('static', filename='libraries/jquery-3.1.0.js') }}"></script>
-
-<!-- Custom scripts -->
-<script src="{{ url_for('static', filename='scripts-frontend/connect-animation.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts-frontend/radar-animation.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts-frontend/page-controls.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts-backend/remote.js') }}"></script>
-<!-- Bootstrap -->
-<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-
-</body>
-</html>
+{% endblock %}

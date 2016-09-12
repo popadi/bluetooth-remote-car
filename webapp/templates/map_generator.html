@@ -1,18 +1,5 @@
-<html>
-<head>
-    <!-- Meta information -->
-    <meta charset="UTF-8">
-    <title>Arduino Bluetooth Car</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-
-    <!-- Resources -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapxl.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
-</head>
-
-<body class="container light">
+{% extends "base.html" %}
+{% block body %}
 
 <!-- The buttons in the footer -->
 <div class="row">
@@ -22,14 +9,4 @@
     </div>
 </div>
 
-<!-- Libraries -->
-<script src="{{ url_for('static', filename='libraries/socket.io.min.js') }}"></script>
-<script src="{{ url_for('static', filename='libraries/jquery-3.1.0.js') }}"></script>
-<!-- Custom scripts -->
-<script src="{{ url_for('static', filename='scripts-frontend/page-controls.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts-backend/remote.js') }}"></script>
-<!-- Bootstrap -->
-<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-
-</body>
-</html>
+{% endblock %}
