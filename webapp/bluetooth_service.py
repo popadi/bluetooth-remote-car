@@ -42,8 +42,11 @@ class BluetoothScraper(object):
 class BluetoothConnection(object):
     def __init__(self, address):
         self.address = address
-        self.channel = BTConfig.channel
+        self.channel = 1
         self.connection = None
+        self.size = 1024
+        self.backlog = 1
+        self.port = 3
 
     def connect_device(self):
         """
@@ -57,6 +60,7 @@ class BluetoothConnection(object):
             self.connection = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
             self.connection.connect((self.address, self.channel))
         except Exception as e:
+            self.close_connection()
             raise BluetoothException(type(e).__name__, str(e))
 
     def send_data(self, data):
@@ -66,6 +70,15 @@ class BluetoothConnection(object):
         """
         # TODO: Exception handling
         self.connection.send(data)
+
+    def recv_data(self):
+        """
+        Send data to the current active connection.
+        :param data: The data to be sent to the device.
+        """
+        # TODO: Exception handling
+        data = self.connection.recv(self.size)
+        return data
 
     def close_connection(self):
         """

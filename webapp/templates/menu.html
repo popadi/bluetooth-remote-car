@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block body %}
+
+    <div class="row" align="center" style="margin-top: 20%">
+        <a href="/remotepc/">
+            <div class="btn btn-success menu-button"><span class="menu-button-span"> Manual PC Control</span></div>
+        </a>
+        <a href="#">
+            <div class="btn btn-success menu-button"><span class="menu-button-span">Manual Remote Control</span></div>
+        </a>
+        <a href="#">
+            <div class="btn btn-success menu-button"><span class="menu-button-span">Manual Map Generator</span></div>
+        </a>
+        <a href="/generator/">
+            <div class="btn btn-success menu-button"><span class="menu-button-span">Auto Map Generator</span></div>
+        </a>
+    </div>
+
+    <!-- The buttons in the footer -->
+    <div class="row">
+        <div class="form left-bottom-corner">
+            <table>
+                <tr>
+                    <td>
+                        <a href="/">
+                            <button class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>
+                            </button>
+                        </a>
+                    </td>
+                    <td width="5px">
+
+                    </td>
+                    <td>
+                        <input type="checkbox" id="unchecked" class="cbx hidden"/>
+                        <label for="unchecked" id="lb-unchecked" class="lbl"></label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='libraries/jquery-3.1.0.js') }}"></script>
+{% endblock %}

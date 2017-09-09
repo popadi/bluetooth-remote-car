@@ -1,5 +1,5 @@
 class serverInfo(object):
-    host = "192.168.0.102"
+    host = "192.168.0.105"
     port = 80
 
     @classmethod
@@ -12,7 +12,7 @@ class serverInfo(object):
 
 
 class BTConfig(object):
-    channel = 3
+    channel = 1
     timeout = 5
 
     @classmethod

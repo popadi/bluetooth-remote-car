@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block body %}
+
+    <div class="row" style="margin-top: 17%;">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <table align="left">
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="button" id="action-up" class="btn btn-success carbtn"
+                                style="height: 175px; width: 175px;">
+                            <span class="glyphicon glyphicon-arrow-up"></span></button>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" id="action-left" class="btn btn-success carbtn"
+                                style="height: 175px; width: 175px;">
+                            <span class="glyphicon glyphicon-arrow-left"></span></button>
+                    </td>
+                    <td>
+                        <button type="button" id="action-down" class="btn btn-success carbtn"
+                                style="height: 175px; width: 175px;">
+                            <span class="glyphicon glyphicon-arrow-down"></span></button>
+                    </td>
+                    <td>
+                        <button type="button" id="action-right" class="btn btn-success carbtn"
+                                style="height: 175px; width: 175px;"><span
+                                class="glyphicon glyphicon-arrow-right"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <button type="button" id="action-space" class="btn btn-success carbtn"
+                                style="height: 75px; width: 525px;">
+                            <span class="glyphicon glyphicon-off"></span></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-sm-12">
+            <div align="right" id="trace">
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- The buttons in the footer -->
+    <div class="row">
+        <div class="form left-bottom-corner">
+            <table>
+                <tr>
+                    <td>
+                        <a href="/menu/">
+                            <button class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>
+                            </button>
+                        </a>
+                    </td>
+                    <td width="5px">
+
+                    </td>
+                    <td>
+                        <input type="checkbox" id="unchecked" class="cbx hidden"/>
+                        <label for="unchecked" id="lb-unchecked" class="lbl"></label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='libraries/jquery-3.1.0.js') }}"></script>
+{% endblock %}

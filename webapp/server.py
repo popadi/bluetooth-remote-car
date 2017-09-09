@@ -3,6 +3,7 @@ from flask_socketio import SocketIO, emit
 from flask import render_template
 from eventlet import wsgi
 import eventlet
+import bluetooth
 
 from webapp.bluetooth_service import BluetoothConnection
 from webapp.bluetooth_service import BluetoothScraper
@@ -20,10 +21,21 @@ connected_users = 0
 
 
 def bluetooth_connection():
+    global active_connection
+    k = 1
+
     while True:
-        print("[*] I'm working!")
-        import time
-        time.sleep(2)
+        continue
+        """
+        data = active_connection.recv_data()
+        data = data.decode("utf-8")
+
+        if data != "":
+            print(data)
+
+            active_connection.send_data(str(k % 2))
+            k += 1
+        """
 
 
 @app.route('/')
@@ -98,7 +110,17 @@ def connect_device(received_data):
         active_connection = None
 
 
-@app.route('/generator/')
+@app.route('/menu/')
+def menu():
+    """
+    The menu page (interface) of the remote car. Here we can choose
+    to manually control the car using the PC, using a remote control
+    or to start the map generator feature.
+    """
+    return render_template('menu.html', async_mode=async_mode)
+
+
+@app.route('/remotepc/')
 def start_background_thread():
     """
     If we have an active connection set, we start the background
@@ -110,8 +132,8 @@ def start_background_thread():
     global active_connection
     if active_connection is not None:
         print("[*] Background worked started!")
-        socketio.start_background_task(target=bluetooth_connection)
-        return render_template('map_generator.html', async_mode=async_mode)
+        # socketio.start_background_task(target=bluetooth_connection)
+        return render_template('remotepc.html', async_mode=async_mode)
     else:
         return redirect(url_for('index'))
 
@@ -127,6 +149,14 @@ def connect():
     global connected_users
     connected_users += 1
     print("[*] New device connected! (Total: {0})".format(connected_users))
+
+
+@socketio.on('move_car', namespace='')
+def move_car(received_data):
+    movedir = received_data['direction']
+    print(movedir)
+
+    active_connection.send_data(movedir)
 
 
 @socketio.on('disconnect', namespace='')

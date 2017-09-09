@@ -100,7 +100,7 @@ socket.on('connection_status', function (connectionData) {
         alertBox.addClass(connStatus ? "alert-success in" : "alert-danger in");
 
         if (alertBox.hasClass("alert-success"))
-            alertBox.click(function () {window.location = "/generator/"});
+            alertBox.click(function () {window.location = "/menu/"});
 
     }, 1000);
 });
@@ -114,4 +114,85 @@ $("#get-devices-btn").click(function () {
     socket.emit("get_devices");
     $("#middle-content").toggleClass('flipped');
     setTimeout(function () { $(".slide").addClass("slide-up"); }, 2000);
+});
+
+/**
+ *
+ */
+function resetButtons() {
+    $(".carbtn").attr('class', 'btn btn-success carbtn');
+}
+
+/**
+ *
+ */
+$("#action-up").click(function () {
+    console.log("Car direction: up");
+    resetButtons();
+
+    this.className = "btn btn-warning carbtn";
+    socket.emit('move_car', {"direction": "W"});
+});
+
+/**
+ *
+ */
+$("#action-down").click(function () {
+    console.log("Car direction: down");
+    resetButtons();
+
+    this.className = "btn btn-warning carbtn";
+    socket.emit('move_car', {"direction": "S"});
+});
+
+/**
+ *
+ */
+$("#action-left").click(function () {
+    console.log("Car direction: left");
+    resetButtons();
+
+    this.className = "btn btn-warning carbtn";
+    socket.emit('move_car', {"direction": "A"});
+});
+
+/**
+ *
+ */
+$("#action-right").click(function () {
+    console.log("Car direction: right");
+    resetButtons();
+
+    this.className = "btn btn-warning carbtn";
+    socket.emit('move_car', {"direction": "D"});
+});
+
+/**
+ *
+ */
+$("#action-space").click(function () {
+    console.log("Car direction: stop");
+    resetButtons();
+
+    this.className = "btn btn-warning carbtn";
+    socket.emit('move_car', {"direction": "X"});
+});
+
+/**
+ *
+ */
+$(document).keypress(function(e) {
+    var k = String.fromCharCode(e.which).toUpperCase();
+
+    if(k === " ") {
+        $("#action-space")[0].click();
+    } else if (k === "W") {
+        $("#action-up")[0].click();
+    } else if (k === "S") {
+        $("#action-down")[0].click();
+    } else if (k === "A") {
+        $("#action-left")[0].click();
+    } else if (k === "D") {
+        $("#action-right")[0].click();
+    }
 });
