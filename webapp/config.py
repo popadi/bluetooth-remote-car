@@ -1,5 +1,5 @@
 class serverInfo(object):
-    host = "192.168.0.105"
+    host = "127.0.0.1"
     port = 80
 
     @classmethod
