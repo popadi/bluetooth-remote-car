@@ -25,17 +25,14 @@ def bluetooth_connection():
     k = 1
 
     while True:
-        continue
-        """
         data = active_connection.recv_data()
         data = data.decode("utf-8")
 
         if data != "":
             print(data)
 
-            active_connection.send_data(str(k % 2))
+            # active_connection.send_data(str(k % 2))
             k += 1
-        """
 
 
 @app.route('/')

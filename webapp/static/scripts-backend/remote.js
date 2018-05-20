@@ -5,7 +5,7 @@
  * Then, connect to the Socket.IO server using the baseURL.
  */
 baseURL = location.protocol + '//' + location.host;
-var socket = io.connect(baseURL);
+let socket = io.connect(baseURL);
 
 
 /**
@@ -18,7 +18,7 @@ var socket = io.connect(baseURL);
  */
 socket.on('print_devices', function (receivedData) {
     /* Decode the recieved result & clear the table */
-    var decoded = JSON.parse(JSON.stringify(receivedData));
+    let decoded = JSON.parse(JSON.stringify(receivedData));
     $("#device-table-content").empty();
     $("#device-table").show();
 
@@ -32,9 +32,12 @@ socket.on('print_devices', function (receivedData) {
 
     /* Add the devices to the table */
     if (decoded['data']['devices']) {
-        function createTD(content){return "<td align='center'>"+content+"</td>";}
-        for (var i = 0; i < decoded['data']['devices'].length; i++) {
-            var newRow = '';
+        function createTD(content) {
+            return "<td align='center'>" + content + "</td>";
+        }
+
+        for (let i = 0; i < decoded['data']['devices'].length; i++) {
+            let newRow = '';
             newRow += createTD(decoded['data']['devices'][i].name);
             newRow += createTD(decoded['data']['devices'][i].address);
             newRow += createTD("<img class='connect-icon' " +
@@ -57,10 +60,9 @@ socket.on('print_devices', function (receivedData) {
  * backend to create a connection with a specific device.
  * @param deviceAddress: the address of the device to connect to.
  */
-
 function connectBluetooth(deviceAddress) {
     /* Remove the alert (if any) */
-    var alertBox = $("#conn-mess");
+    let alertBox = $("#conn-mess");
     alertBox.removeClass("in");
     alertBox.removeClass("alert-danger");
 
@@ -85,26 +87,27 @@ function connectBluetooth(deviceAddress) {
  * status and an success/error message
  */
 socket.on('connection_status', function (connectionData) {
-    var decoded = JSON.parse(JSON.stringify(connectionData));
-    var connStatus = decoded['data']['status'];
+    let decoded = JSON.parse(JSON.stringify(connectionData));
+    let connStatus = decoded['data']['status'];
 
     setTimeout(function () {
         /* Function: connect-animation.js file */
         toggleAnimationEnd(connStatus);
 
-        var graphics = connStatus ?  $("#success-graphics") : $("#error-graphics");
+        let graphics = connStatus ? $("#success-graphics") : $("#error-graphics");
         $(graphics).css("display", "block");
 
-        var alertBox = $("#conn-mess");
+        let alertBox = $("#conn-mess");
         alertBox.empty().append(decoded['data']['message']);
         alertBox.addClass(connStatus ? "alert-success in" : "alert-danger in");
 
         if (alertBox.hasClass("alert-success"))
-            alertBox.click(function () {window.location = "/menu/"});
+            alertBox.click(function () {
+                window.location = "/menu/"
+            });
 
     }, 1000);
 });
-
 
 /**
  * Start the radar animation and emit a message to actually
@@ -113,86 +116,137 @@ socket.on('connection_status', function (connectionData) {
 $("#get-devices-btn").click(function () {
     socket.emit("get_devices");
     $("#middle-content").toggleClass('flipped');
-    setTimeout(function () { $(".slide").addClass("slide-up"); }, 2000);
+    setTimeout(function () {
+        $(".slide").addClass("slide-up");
+    }, 2000);
 });
 
-/**
- *
- */
-function resetButtons() {
-    $(".carbtn").attr('class', 'btn btn-success carbtn');
+$("#action-up").click(() => {
+    return trigger_W();
+});
+
+$("#action-down").click(function () {
+    trigger_S();
+});
+
+
+$("#action-left").click(function () {
+    trigger_A();
+});
+
+
+$("#action-right").click(function () {
+    trigger_D()
+});
+
+
+$("#action-space").click(function () {
+    trigger_X();
+});
+
+let map = {
+    87: false,
+    65: false,
+    83: false,
+    68: false,
+    32: false
+};
+
+function trigger_W() {
+    if (map[87]) {
+        console.log("W");
+        socket.emit('move_car', {"direction": "W"});
+        $("#action-up").attr('class', "btn btn-warning carbtn");
+    } else {
+        console.log("w");
+        socket.emit('move_car', {"direction": "w"});
+        $("#action-up").attr('class', 'btn btn-success carbtn');
+    }
 }
 
-/**
- *
- */
-$("#action-up").click(function () {
-    console.log("Car direction: up");
-    resetButtons();
-
-    this.className = "btn btn-warning carbtn";
-    socket.emit('move_car', {"direction": "W"});
-});
-
-/**
- *
- */
-$("#action-down").click(function () {
-    console.log("Car direction: down");
-    resetButtons();
-
-    this.className = "btn btn-warning carbtn";
-    socket.emit('move_car', {"direction": "S"});
-});
-
-/**
- *
- */
-$("#action-left").click(function () {
-    console.log("Car direction: left");
-    resetButtons();
-
-    this.className = "btn btn-warning carbtn";
-    socket.emit('move_car', {"direction": "A"});
-});
-
-/**
- *
- */
-$("#action-right").click(function () {
-    console.log("Car direction: right");
-    resetButtons();
-
-    this.className = "btn btn-warning carbtn";
-    socket.emit('move_car', {"direction": "D"});
-});
-
-/**
- *
- */
-$("#action-space").click(function () {
-    console.log("Car direction: stop");
-    resetButtons();
-
-    this.className = "btn btn-warning carbtn";
-    socket.emit('move_car', {"direction": "X"});
-});
-
-/**
- *
- */
-$(document).keypress(function(e) {
-    var k = String.fromCharCode(e.which).toUpperCase();
-
-    if(k === " ") {
-        $("#action-space")[0].click();
-    } else if (k === "W") {
-        $("#action-up")[0].click();
-    } else if (k === "S") {
-        $("#action-down")[0].click();
-    } else if (k === "A") {
-        $("#action-left")[0].click();
-    } else if (k === "D") {
-        $("#action-right")[0].click();
+function trigger_A() {
+    if (map[65]) {
+        console.log("A");
+        socket.emit('move_car', {"direction": "A"});
+        $("#action-left").attr('class', "btn btn-warning carbtn");
+    } else {
+        console.log("a");
+        socket.emit('move_car', {"direction": "a"});
+        $("#action-left").attr('class', 'btn btn-success carbtn');
     }
+}
+
+function trigger_S() {
+    if (map[83]) {
+        console.log("S");
+        socket.emit('move_car', {"direction": "S"});
+        $("#action-down").attr('class', "btn btn-warning carbtn");
+    } else {
+        console.log("s");
+        socket.emit('move_car', {"direction": "s"});
+        $("#action-down").attr('class', 'btn btn-success carbtn');
+    }
+}
+
+function trigger_D() {
+    if (map[68]) {
+        console.log("D");
+        socket.emit('move_car', {"direction": "D"});
+        $("#action-right").attr('class', "btn btn-warning carbtn");
+    } else {
+        console.log("d");
+        socket.emit('move_car', {"direction": "d"});
+        $("#action-right").attr('class', 'btn btn-success carbtn');
+    }
+}
+
+function trigger_X() {
+    if (map[32]) {
+        console.log("X");
+        socket.emit('move_car', {"direction": "X"});
+        $("#action-space").attr('class', "btn btn-warning carbtn");
+    } else {
+        console.log("x");
+        socket.emit('move_car', {"direction": "x"});
+        $("#action-space").attr('class', 'btn btn-success carbtn');
+    }
+}
+
+
+/**
+ *
+ */
+$(document).keydown(function (e) {
+    map[e.keyCode] = true;
+    sendKeys(e.keyCode);
+
+}).keyup(function (e) {
+    map[e.keyCode] = false;
+    sendKeys(e.keyCode);
 });
+
+/**
+ *
+ */
+function sendKeys(key) {
+    let keyName = String.fromCharCode(key).toUpperCase();
+    //console.log("keyname=", keyName);
+
+    switch (keyName) {
+        case " ":
+            trigger_X();
+            break;
+        case "W":
+            trigger_W();
+            break;
+        case "S":
+            trigger_S();
+            break;
+        case "A":
+            trigger_A();
+            break;
+        case "D":
+            trigger_D();
+            break;
+    }
+}
