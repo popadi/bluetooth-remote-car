@@ -39,6 +39,12 @@ The electrical circuit components can be seen in the picture below. I made the s
 ## Software Design
 The algorithm is simple: in an infinite loop (after initialization of the ADC and other ports) I wait for serial messages coming through the Bluetooth module. Depending on what is received, I enable / disable certain flags (`moveF = move forward`,` moveL = move left`, etc.). Once the command is identified, in case it is valid, call the main function called `move_car ()`. Here, first, the distance to the nearest frontal obstacle is measured. If it exists and is in a 'danger zone', the car will stand still. Otherwise, depending on the command I received (left, right, forward, backward, stop), I will enable / disable some outputs to produce the desired behavior of the machine (I used the logic table of the engine driver).
 
+## Results
+
+![alt text](https://github.com/PopAdi/bluetooth-remote-car-app/blob/master/_images/img_3.jpg)
+![alt text](https://github.com/PopAdi/bluetooth-remote-car-app/blob/master/_images/img_4.jpg)
+![alt text](https://github.com/PopAdi/bluetooth-remote-car-app/blob/master/_images/img_5.jpg)
+
 ## Conclusions
 The entire project has tried my electronics capabilities and also the beginner in embedded programming. Although I had worked with Arduino before, it was a challenge to realize this project in C, making me realize how complicated are sometimes all the simple functions in the Arduino interface (for example serial communication, but last but not least, reading sensor data).
 
