@@ -1,48 +1,46 @@
 # bluetooth-remote-car-app
 
-## Introducere
+## Introduction
 
-Tema acestui proiect consta in realizarea unei masinute care va putea fi controlata atat prin Bluetooth, de pe un dispozitiv ce ruleaza Android, cat si de pe o aplicatie web dintr-un browser. Un prototip simplu al acestei masinute l-am construit acum cativa ani, folosind platforma Arduino, dar am considerat ca ar fi o provocare sa incerc realizarea acesteia de la 0: de la un PCB, niste fire si componente, la un device complet functional.
+The theme of this projects consisted in building a little toy car that can be controlled through Bluetooth (from a device that has Android) or from a custom web application. A simple prototype of this car was built by me a couple of years ago, using Arduino, but I thought it will be a challenge to redo the project from scratch using a PCB, some wires and components to a fully functional device.
 
-## Descriere generală
+## General description
 
-Flow-ul este usor diferit, in functie de modalitatea de control. Daca folosim aplicatia Android, semnalele vor fi trimise direct catre modulul de Bluetooth al masinutei. Daca folosim aplicatia Desktop, din front-end se va trimite printr-un socket un semnal catre un server de Python. Serverul are rolul de a realiza comunicatia efectiva cu masinuta. Acesta, la randul lui, va serializa datele si le va trimite modulului de Bluetooth.
-Odata ajunse la modulul HC-05, datele vor fi interpretate de catre ATMega324, acesta din urma controland motoarele intr-un mod corespunzator. Flow-ul simplificat al proiectului poate fi vizualizat in schema de mai jos.
+The flow is slightly different, depending on the control mode. If we use the Android app, the signals will be sent directly to the car's Bluetooth module. If we use the Desktop application, a socket will send a signal to a Python server from the front end. The server has the role of managing the actual communication with the car. This, in turn, will serialize the data and send it to the Bluetooth module.
+Once that the data reach the HC-05 module, it will be interpreted by ATMega324, the latter controlling the motors in an appropriate manner. The simplified flow of the project can be seen in the scheme below.
 
 ![alt text](https://github.com/PopAdi/bluetooth-remote-car-app/blob/master/_images/img_1.png)
 
 ## Hardware Design
 
-Lista de piese:
+Components list:
 
-| Nume piesa                       	| Cod produs         	| Cantitate 	| Pret (RON)   	|
+| Name                      	| Code        	| Quantity 	| Price (RON)   	|
 |----------------------------------	|--------------------	|-----------	|--------------	|
-| Placa de baza PM 2018            	| -                  	| 1         	| 8            	|
-| Componente placa de baza PM 2018 	| -                  	| 1         	| 46           	|
-| Modul Bluetooth                  	| HC-05              	| 1         	| 29           	|
-| Driver Motoare                   	| L298N              	| 1         	| 39           	|
-| Senzor distanta                  	| Sharp GP2D120XJ00F 	| 1         	| 92           	|
-| Motor cu cutie viteze            	| -                  	| 4         	| 29           	|
+| Custom PCB            	| -                  	| 1         	| 8            	|
+| PCB Main Components 	| -                  	| 1         	| 46           	|
+| Bluetooth Module                  	| HC-05              	| 1         	| 29           	|
+| Motors Driver                   	| L298N              	| 1         	| 39           	|
+| Distance Sensor                  	| Sharp GP2D120XJ00F 	| 1         	| 92           	|
+| Stepper motor            	| -                  	| 4         	| 29           	|
 | Mini breadboard                  	| -                  	| 1         	| 5            	|
-| Adaptor baterie 9V               	| -                  	| 1         	| 4            	|
-| Fire mama-mama                   	| -                  	| 15        	| 7 (x10 fire) 	|
-| Fire mama-tata                   	| -                  	| 15        	| 7 (x10 fire) 	|
-| Roti cauciuc                     	| -                  	| 4         	| 29 (x2 roti) 	|
-| Sasiu plexiglas                  	| -                  	| 1         	| -            	|
-| Sasiu plexiglas                  	| -                  	| 1         	| -            	|
-| Piese lego                       	| -                  	| multe     	| 60           	|
+| 9V Adapter              	| -                  	| 1         	| 4            	|
+| M-M Wires                   	| -                  	| 15        	| 7 (x10 wires) 	|
+| M-F Wires                   	| -                  	| 15        	| 7 (x10 wires) 	|
+| Wheels                     	| -                  	| 4         	| 29 (x2 wheels) 	|
+| Plexiglass chassis                  	| -                  	| 1         	| -            	|
+| Plexiglass chassis                  	| -                  	| 1         	| -            	|
+| Legos                       	| -                  	| a lot     	| 150           	|
 
-Componentele schemei electrice pot fi vizualizate in imaginea de mai jos. Am realizat schema separand oarecum principalele module folosite, insa label-urile asociate iesirilor sau intrarilor sunt clare, observandu-se cum ar trebui sa se conecteze in realitate. Am introdus si cateva din elementele optionale de la realizarea placii, precum alimentarea la 3.3V sau modului auxiliar de alimentare prin mufa DC de 12V.
+The electrical circuit components can be seen in the picture below. I made the schematic by separating the main modules used, but the labels associated with outputs or inputs are clear, observing how they should connect in reality. I've also introduced some of the optional board features, such as 3.3V power supply or auxiliary power supply through the 12V DC plug.
 
 ![alt text](https://github.com/PopAdi/bluetooth-remote-car-app/blob/master/_images/img_2.png)
 
 ## Software Design
-Mediul de dezvoltare al aplicatiei a fost Sublime Text 3.0. Nu au fost utilizate biblioteci sau surse 3rd-party, inafara de mini-biblioteca de usart din cadrul laboratului. Algoritmul este unul simplu: intr-o bucla infinita (dupa initializarea ADC-ului si a celorlalte porturi) astept mesaje de pe seriala, care vin prin intermediul modulului Bluetooth. In functie de ce se primeste, activez/dezactivez anumite flag-uri (moveF = move forward, moveL = move left etc.). Odata identificata comanda, in caz ca este valida, se apeleaza functia principala numita move_car(). Aici, in primul rand se masoara distanta catre cel mai apropiat obstacol frontal. In caz ca exista si se afla intr-un 'danger zone', masina va sta pe loc. In caz contrar, in functie de comanda primita (left, right, forward, backward, stop) voi activa/dezactiva anumite iesiri, pentru a produce comportamentul dorit masinutei (m-am folosit de tabelul logic al driver-ului de motoare).
+The algorithm is simple: in an infinite loop (after initialization of the ADC and other ports) I wait for serial messages coming through the Bluetooth module. Depending on what is received, I enable / disable certain flags (`moveF = move forward`,` moveL = move left`, etc.). Once the command is identified, in case it is valid, call the main function called `move_car ()`. Here, first, the distance to the nearest frontal obstacle is measured. If it exists and is in a 'danger zone', the car will stand still. Otherwise, depending on the command I received (left, right, forward, backward, stop), I will enable / disable some outputs to produce the desired behavior of the machine (I used the logic table of the engine driver).
 
-Codul sursa pentru masinuta poate fi vizualizat in arhiva de mai jos. Pentru aplicatia web folosita, am atasat un link catre un repository personal. Este o aplicatie web scrisa in python si javascript care permite detectarea device-urilor bluetooth din jur, conectarea la unul dintre ele, iar odata ce conexiunea este stabilita, suntem redirectionati catre o pagina unde avem formwatul WASD + Space din jocuri, pentru controlul masinutei.
+## Conclusions
+The entire project has tried my electronics capabilities and also the beginner in embedded programming. Although I had worked with Arduino before, it was a challenge to realize this project in C, making me realize how complicated are sometimes all the simple functions in the Arduino interface (for example serial communication, but last but not least, reading sensor data).
 
-## Concluzii 
- Intreg proiectul mi-a pus la incercare capacitatile de mic electronist si de asemenea, de incepator in programarea embedded. Desi mai lucrasem inainte cu Arduino, a fost o provocare sa realizez acest proiect in C, dandu-mi seama cat de complicate sunt uneori toate functiile simple din interfata Arduino (de exemplu comunicarae seriala, dar nu in ultimul rand, citirea datelor senzorilor).
-
-## Victime
-Din nefericire, un modul de Bluetooth HC-05 a trecut in nefiinta dupa ce am incercat sa il alimentez, uitat alimentarea USB in placa. La momentul producerii incidentului, s-a auzit un mic sunet de 'poof', dupa care s-a facut simtit fumul magic din interior.
+## Victims
+Unfortunately, a Bluetooth HC-05 module went unheeded after I tried to power it, forgetting the USB power supply in the PCB. At the time of the incident, a small sound of 'poof' was heard, after which the magic smoke was felt in the air.
