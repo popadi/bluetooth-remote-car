@@ -2,5 +2,5 @@ Flask==1.0.2
 Flask-SocketIO==2.6.2
 Jinja2==2.11.3
 PyBluez==0.22
-eventlet==0.19.0
+eventlet==0.31.0
 python-socketio==1.4.4
